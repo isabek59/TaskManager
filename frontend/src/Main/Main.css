@@ -1,0 +1,40 @@
+.text1 {
+    font-size: 80px;
+    height: 250px;
+    width: 900px;
+    color: black;
+    font-weight: 500;
+    font-family: 'Raleway';
+    margin-top: 170px;
+    margin-left: 90px;
+}
+
+.text2 {
+    font-size: 35px;
+    margin-left: 90px;
+    margin-top: 20px;
+    color: black;
+    width: 700px;
+    height: 120 px;
+    font-weight: 500;
+    font-family: 'Raleway';
+}
+
+.to_do {
+    /* flex-shrink: 0; */
+    position: fixed;
+    top: 250px;
+    left: 60%;
+
+    /* height: calc(65%);
+    right: 5%;
+    left: 5%;
+    width: calc(90%); */
+    /* display: flex;
+    flex-shrink: 0;
+    border-radius: 70px;
+    display: flex;
+    padding-bottom: 5%; */
+    background: url(../images/to_do_list_icon.png), rgb(255, 255, 255) 10% / no-repeat;
+    background-size: 300px 10px;
+}

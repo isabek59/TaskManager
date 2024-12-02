@@ -1,0 +1,90 @@
+{
+  "todos": [
+    {
+      "id": "0",
+      "text": "Созвон с командой",
+      "date": "06.10.2024"
+    },
+    {
+      "id": "1",
+      "text": "Купить продукты",
+      "date": "06.10.2024"
+    },
+    {
+      "id": "2",
+      "text": "аолдвыфаф",
+      "date": "06.10.2024"
+    },
+    {
+      "id": 4,
+      "text": "fkldjkflds",
+      "date": "06.10.2024"
+    }
+  ],
+  "projects": [
+    {
+      "title": "Проект Alles",
+      "id": "1",
+      "members": [
+        {
+          "id": 1,
+          "name": "Member 1"
+        },
+        {
+          "id": 2,
+          "name": "Member 2"
+        }
+      ],
+      "tasks": [
+        {
+          "id": 1,
+          "name": "task 1",
+          "user": {
+            "id": 1,
+            "name": "Isa"
+          }
+        },
+        {
+          "id": 2,
+          "name": "task2",
+          "user": {
+            "id": 3,
+            "name": "Rayan"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Учеба",
+      "id": "2",
+      "members": [
+        {
+          "id": 1,
+          "name": "Member 1"
+        },
+        {
+          "id": 2,
+          "name": "Member 2"
+        }
+      ],
+      "tasks": [
+        {
+          "id": 1,
+          "name": "task 1",
+          "user": {
+            "id": 1,
+            "name": "Isa"
+          }
+        },
+        {
+          "id": 2,
+          "name": "task2",
+          "user": {
+            "id": 3,
+            "name": "Rayan"
+          }
+        }
+      ]
+    }
+  ]
+}
