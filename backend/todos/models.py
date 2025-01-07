@@ -8,8 +8,8 @@ from projects.models import Projects
 # Create your models here.
 class Todos(models.Model):
     text = models.TextField()
-    project = models.ForeignKey(Projects, on_delete=models.CASCADE, default=None)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    project = models.ForeignKey(Projects, on_delete=models.CASCADE, null=True, blank=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     create_date = models.DateTimeField(default=datetime.now)
     due_date = models.DateField(default=date.today)
-    is_done = models.BooleanField()
+    is_done = models.BooleanField(default=False)

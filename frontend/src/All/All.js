@@ -1,53 +1,43 @@
 import { useState, useEffect } from "react";
 import "./All.css"
 import delete_icon from "../images/delete-button-svgrepo-com.svg"
-import edit_icon from "../images/edit-svgrepo-com.svg"
-
+import edit_icon from "../images/edit_button.svg"
+import { EditModal } from "../AddTodoModal/AddTodoModal"
+import { AddModal } from "../EditTodoModal/EditTodoModal"
+import { ApiService } from "../service/ApiService"
 
 
 export function All() {
-    const [todo, setTodo] = useState("")
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [activeTodoId, setActiveTodoId] = useState()
+
+    const [isModalOpen1, setIsModalOpen1] = useState(false)
+
     const [todos, setTodos] = useState([])
+    const [checked, setChecked] = useState([])
     useEffect(() => {
         ; (async () => {
             try {
-                const result = await fetch('http://localhost:3000/todos')
-                const todos = await result.json()
-
+                const todos = await ApiService("todos/")
+                const checked = []
+                todos.forEach(element => {
+                    checked.push(element.is_done)
+                });
                 setTodos(todos)
+                setChecked(checked)
             } catch (err) {
                 console.log(err)
             }
         })()
     }, [])
 
-    const handleSumbit = async function (event) {
-        event.preventDefault()
-        // console.log()
-        const response = await fetch('http://localhost:3000/todos', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                id: todos.length,
-                text: todo,
-                date: "06.10.2024"
-            }),
-        })
-
-        const item = await response.json()
-
-        setTodos([...todos, item])
-        setTodo("")
-    }
 
     const handleDelete = async (todoId) => {
-        console.log(todoId)
-        await fetch(`http://localhost:3000/todos/${todoId}`, {
+        await ApiService(`todos/${todoId}/`, {
             method: 'DELETE',
+            headers: {
+            },
         })
-
 
         const deletedTodoIdx = todos.findIndex(
             (todo) => todo.id === todoId
@@ -57,41 +47,112 @@ export function All() {
             ...todos.slice(0, deletedTodoIdx),
             ...todos.slice(deletedTodoIdx + 1, todos.length),
         ])
+        setChecked([
+            ...checked.slice(0, deletedTodoIdx),
+            ...checked.slice(deletedTodoIdx + 1, checked.length),
+        ])
+    }
+
+    async function handleCheckboxChange(todoId, Id) {
+        await ApiService(`todos/${todoId}/mark_as_done/`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        const nextCounters = checked.map((c, i) => {
+            if (i === Id) {
+                return !c;
+            } else {
+                return c;
+            }
+        });
+        setChecked(nextCounters);
+    }
+
+    const handleEdit = async (text, date) => {
+        const updatedTodo = await ApiService(`todos/${activeTodoId}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                text: text,
+                due_date: date
+            }),
+        })
+
+        const updatedTodoIdx = todos.findIndex(
+            (Todo) => Todo.id === activeTodoId
+        )
+
+        const newTodos = [...todos]
+        newTodos[updatedTodoIdx] = updatedTodo
+
+        setTodos(newTodos)
+
+    }
+
+    const handleSumbit = async (text, date) => {
+        const item = await ApiService('todos/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                text: text,
+                due_date: date
+            }),
+        })
+        setTodos([...todos, item])
+        checked.push(false)
+        setChecked(checked)
     }
 
     return (
+
         <div className="All">
+            {isModalOpen && (
+                <EditModal onClose={() => setIsModalOpen(false)} todo={todos.find((todo) => todo.id === activeTodoId)} onEdit={handleEdit} />
+            )}
+            {isModalOpen1 && (
+                <AddModal onClose={() => setIsModalOpen1(false)} onEdit={handleSumbit} />
+            )}
             <div className="all_title">Все задачи</div>
-            {todos.map((item) => (
+            {todos.map((item, i) => (
                 <div className="task-item" key={item.id}>
-                    <input className="checkbox" type="checkbox" />
-                    <div className="todo">{item.text}</div>
-                    <span className="task-date">{item.date}</span>
-                    <button>
-                        <img src={edit_icon} />
+                    { }
+                    <input className="checkbox" type="checkbox" onChange={() => handleCheckboxChange(item.id, i)} />
+                    {checked[i] === true ?
+                        <div className="todo"><strike>{item.text}</strike></div> :
+                        <div className="todo">{item.text}</div>
+                    }
+                    <span className="task-date">{item.due_date}</span>
+                    <button
+                        onClick={() => {
+                            setActiveTodoId(item.id)
+                            setIsModalOpen(true)
+                        }}
+                    >
+                        <img src={edit_icon} alt="edit_icon" />
                     </button>
                     <button
                         onClick={() => handleDelete(item.id)}
 
                     >
-                        <img src={delete_icon} />
+                        <img src={delete_icon} alt="delete_icon" />
                     </button>
                 </div>
             ))}
             <div className="add-task">
-                <form onSubmit={handleSumbit}>
-                    <input
-                        value={todo}
-                        onChange={(event) => setTodo(event.target.value)}
-                        className="textarea"
-                        type="text"
-                    />
+                <button type="submit"
+                    onClick={() => {
+                        setIsModalOpen1(true)
 
-                    <button type="submit"
-                    >+ Добавить задачу</button>
-                </form>
+                    }}
+                >+ Добавить задачу</button>
 
             </div>
-        </div>
+        </div >
     );
 }       

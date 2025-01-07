@@ -2,6 +2,14 @@ import "./Header.css"
 import { Link } from "react-router-dom";
 
 export function Header() {
+    const onLogout = () => {
+        window.localStorage.removeItem("access");
+        window.localStorage.removeItem("refresh");
+        window.location.reload();
+        window.location.href = "/";
+    };
+
+    const isAuth = Boolean(window.localStorage.getItem("access"));
     return (
         <div className='header'>
             <div className='header-container'>
@@ -20,9 +28,17 @@ export function Header() {
                 <Link to='/done'>
                     <button className='usual'>Выполненные</button>
                 </Link>
-                <Link to='/login'>
+                {/* <Link to='/login'>
                     <button className='log-in'>Войти</button>
-                </Link>
+                </Link> */}
+                {isAuth ? (
+                    <button className="log-in" onClick={onLogout}>
+                        Выйти</button>
+                ) : (
+                    <Link to="/login">
+                        <button className="log-in"> Войти</button>
+                    </Link>
+                )}
             </div>
         </div>
     );

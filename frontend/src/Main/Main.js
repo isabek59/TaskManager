@@ -11,7 +11,7 @@ export function Main() {
                 Упростите себе жизнь, отслеживайте задачи и фиксируйте прогресс
             </div>
             <div class="to_do">
-                <img src={to_do} />
+                <img src={to_do} alt="to_do" />
             </div>
         </div>
     );

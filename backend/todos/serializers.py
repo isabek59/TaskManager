@@ -6,3 +6,9 @@ class TodosSerializer(serializers.ModelSerializer):
   class Meta:
     model = Todos
     fields = '__all__'
+
+
+class TodoCreateSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Todos
+    fields = ['id', 'text', 'is_done', 'due_date']

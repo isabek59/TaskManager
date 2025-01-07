@@ -63,3 +63,8 @@ div h2 {
     color: black;
     font-family: Raleway;
 }
+
+.error_msg {
+    color: red;
+    font-family: Raleway;
+}

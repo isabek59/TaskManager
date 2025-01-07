@@ -6,3 +6,8 @@
 
 Ссылка на структуру проекта:
 https://www.figma.com/design/FS48Ns9E0HoqsWNeWGD1SJ/Taskmanager?node-id=15-41&node-type=frame&t=wI6ANm4ZNVWjVnHO-0
+
+Для запуска проекта нужно из корневой директории запустить команду:
+```bash
+$> docker-compose up --build
+```
